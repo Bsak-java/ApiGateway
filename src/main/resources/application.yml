@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://CUSTOMER
+          predicates:
+            - Path=/customers/**
+        - id: ride-request
+          uri: lb://CUSTOMER
+          predicates:
+            - Path=/ride-requests/**
+        - id: driver
+          uri: lb://DRIVER
+          predicates:
+            - Path=/drivers/**
+        - id: ride
+          uri: lb://RIDE
+          predicates:
+            - Path=/rides/**
+        - id: security
+          uri: lb://SECURITY
+          predicates:
+            - Path=/auths/**
+
+jwt:
+  secret: AvHGRK8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadweheufHNyG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
